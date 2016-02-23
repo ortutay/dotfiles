@@ -1,5 +1,4 @@
 (add-to-list 'load-path "/Users/marcell/emacs/")
-(add-to-list 'load-path "/Users/marcell/tern/emacs/")
 
 (require 'web-mode)
 (require 'jsx-mode)
@@ -9,41 +8,17 @@
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
+
+;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
+(cond
+ ((>= 24 emacs-major-version)
+  (package-refresh-contents)
+ )
+)
+
 (package-initialize) ;; You might already have this line
 
 (ac-config-default)
-
-
-;; React/JSX
-;; (setq react-packages
-;;     '(
-;;       web-mode
-;;       js2-mode
-;;       tern-mode
-;;       ))
-
-;; (defun react/post-init-web-mode ()
-;;   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-;;   (add-to-list 'auto-mode-alist '("\\.react.js\\'" . web-mode))
-
-;;   (add-hook 'web-mode-hook
-;;             (lambda ()
-;;               (when (or (equal web-mode-content-type "jsx")
-;;                         (equal web-mode-content-type "javascript"))
-;;                 (web-mode-set-content-type "jsx")
-;;                 (add-to-list 'company-backends 'company-tern)
-;;                 (js2-minor-mode)
-;;                 (tern-mode))))
-
-;;   (with-eval-after-load 'web-mode
-;;     (defadvice web-mode-highlight-part (around tweak-jsx activate)
-;;       (if (equal web-mode-content-type "jsx")
-;;           (let ((web-mode-enable-part-face nil))
-;;             ad-do-it)
-;;         ad-do-it))))
-
-;; end React/JSX
-
 
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "M-/") 'comment-region)
@@ -85,22 +60,11 @@
                    tab-width 2))))
 
 
-;; ;; web mode
-;; (require 'web-mode)
-;; (add-hook 'web-mode-hook
-;;           (lambda ()
-;;             (setq tab-width 2)
-;;             (setq tab-stop-list (number-sequence 2 200 2))
-;;             ))
-;; ;; (add-to-list 'auto-mode-alist '("\\.ios.js\\'" . web-mode))
-
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) ;; for JSX
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jison\\'" . bison-mode))
-;; (setq default-tab-width 2)
 (setq js-indent-level 2)
 (setq jsx-indent-level 2)
 
@@ -122,26 +86,7 @@
                            comment-end "")))
 
 
-
-;; integrate with system copy/paste
-;; source: http://stackoverflow.com/questions/3216081/integrate-emacs-copy-paste-with-system-copy-paste
-;; (setq x-select-enable-clipboard t)
-;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
-;; http://stackoverflow.com/questions/14444935/unable-to-compile-emacs-auto-complete-dependency-on-popup
-;; (require 'package)
-;; (add-to-list 'package-archives
-;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; (package-initialize)
-;; (setq url-http-attempt-keepalives nil)
-
-;; autocomplete
-;; http://auto-complete.org/
-;; (add-to-list 'load-path "~/.emacs.d")
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-
-;;02.02.2000
+;; 02.02.2000
 (defun xsteve-remove-control-M ()
   "Remove ^M at end of line in the whole buffer."
   (interactive)
