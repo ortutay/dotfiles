@@ -4,19 +4,28 @@
 (require 'jsx-mode)
 (require 'rust-mode)
 
-;; http://melpa.org/#/getting-started
-(require 'package) ;; You might already have this line
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+;; https://sites.google.com/site/steveyegge2/effective-emacs
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(defalias 'qrr 'query-replace-regexp)
+(defalias 'rr 'query-replace-regexp)
 
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Frame-Parameters.html
+(add-to-list 'default-frame-alist '(foreground-color . "#ddd"))
+(add-to-list 'default-frame-alist '(background-color . "black"))
+(add-to-list 'default-frame-alist '(cursor-color . "coral"))
+(add-to-list 'default-frame-alist '(alpha . 85))
+
+;; http://melpa.org/#/getting-started
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 ;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
 (cond
  ((>= 24 emacs-major-version)
   (package-refresh-contents)
  )
 )
-
-(package-initialize) ;; You might already have this line
+(package-initialize)
 
 (ac-config-default)
 
@@ -25,6 +34,7 @@
 (global-set-key (kbd "M-i") 'indent-to-column)
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "M-?") 'uncomment-region)
+
 ;; scrollers
 (global-set-key "\M-n" "\C-u4\C-v")
 (global-set-key "\M-p" "\C-u4\M-v")
