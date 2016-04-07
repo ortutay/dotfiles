@@ -4,7 +4,16 @@
 (require 'jsx-mode)
 (require 'rust-mode)
 
+;; https://www.emacswiki.org/emacs/EmacsApp
+(if (not (getenv "TERM_PROGRAM"))
+    (let ((path (shell-command-to-string
+                 "$SHELL -cl \"printf %s \\\"\\\$PATH\\\"\"")))
+      (setenv "PATH" path)))
+(setq exec-path (split-string (getenv "PATH") ":"))
+
 ;; https://sites.google.com/site/steveyegge2/effective-emacs
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
@@ -63,15 +72,20 @@
             (setq indent-tabs-mode t)
             ))
 
-;; Python Hook
-(add-hook 'python-mode-hook
-          ((lambda ()
-             (setq indent-tabs-mode nil
-                   tab-width 2))))
+(add-hook 'go-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-.") 'godef-jump)))
+
+;; ;; Python Hook
+;; (add-hook 'python-mode-hook
+;;           ((lambda ()
+;;              (setq indent-tabs-mode nil
+;;                    tab-width 2))))
 
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) ;; for JSX
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jison\\'" . bison-mode))
