@@ -3,6 +3,10 @@
 (require 'web-mode)
 (require 'jsx-mode)
 (require 'rust-mode)
+(require 'jade-mode)
+(require 'stylus-mode)
+(require 'sws-mode)
+(require 'slim-mode)
 
 ;; https://sites.google.com/site/steveyegge2/effective-emacs
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
