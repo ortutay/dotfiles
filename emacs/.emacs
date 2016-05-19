@@ -3,6 +3,9 @@
 (require 'web-mode)
 (require 'jsx-mode)
 (require 'rust-mode)
+(require 'jade-mode)
+(require 'stylus-mode)
+(require 'php-mode)
 
 ;; https://www.emacswiki.org/emacs/EmacsApp
 (if (not (getenv "TERM_PROGRAM"))
@@ -25,15 +28,22 @@
 (add-to-list 'default-frame-alist '(cursor-color . "coral"))
 (add-to-list 'default-frame-alist '(alpha . 85))
 
+;; http://stackoverflow.com/questions/10147686/how-to-automatically-navigate-to-default-found-tag
+(defun sm-find-tag ()
+  (interactive)
+  (find-tag (funcall (or find-tag-default-function
+                         (get major-mode 'find-tag-default-function)
+                         'find-tag-default))))
+
 ;; http://melpa.org/#/getting-started
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
-(cond
- ((>= 24 emacs-major-version)
-  (package-refresh-contents)
- )
-)
+;; ;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
+;; (cond
+;;  ((>= 24 emacs-major-version)
+;;   (package-refresh-contents)
+;;  )
+;; )
 (package-initialize)
 
 (ac-config-default)
