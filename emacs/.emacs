@@ -1,25 +1,27 @@
 (add-to-list 'load-path "/Users/marcell/emacs/")
+(add-to-list 'load-path "/Users/marcell/emacs/editorconfig/")
 
 (require 'web-mode)
+(require 'handlebars-mode)
 (require 'jsx-mode)
 (require 'rust-mode)
 (require 'jade-mode)
 (require 'stylus-mode)
 (require 'sws-mode)
 (require 'slim-mode)
+(require 'scss-mode)
 (require 'php-mode)
+(require 'markdown-mode)
+(require 'livescript-mode)
 
-;; https://www.emacswiki.org/emacs/EmacsApp
-(if (not (getenv "TERM_PROGRAM"))
-    (let ((path (shell-command-to-string
-                 "$SHELL -cl \"printf %s \\\"\\\$PATH\\\"\"")))
-      (setenv "PATH" path)))
-(setq exec-path (split-string (getenv "PATH") ":"))
->>>>>>> 60b49c8c5f45d4df551469de7a882889fb3304ea:emacs/.emacs
+(require 'editorconfig)
+(editorconfig-mode 1)
+
+;; For ember/broccoli
+;; https://github.com/ember-cli/ember-cli/issues/741
+(setq create-lockfiles nil)
 
 ;; https://sites.google.com/site/steveyegge2/effective-emacs
-(global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-set-key "\C-c\C-m" 'execute-extended-command)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
@@ -31,22 +33,15 @@
 (add-to-list 'default-frame-alist '(cursor-color . "coral"))
 (add-to-list 'default-frame-alist '(alpha . 85))
 
-;; http://stackoverflow.com/questions/10147686/how-to-automatically-navigate-to-default-found-tag
-(defun sm-find-tag ()
-  (interactive)
-  (find-tag (funcall (or find-tag-default-function
-                         (get major-mode 'find-tag-default-function)
-                         'find-tag-default))))
-
 ;; http://melpa.org/#/getting-started
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-;; ;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
-;; (cond
-;;  ((>= 24 emacs-major-version)
-;;   (package-refresh-contents)
-;;  )
-;; )
+;; http://stackoverflow.com/questions/24833964/package-listed-in-melpa-but-not-found-in-package-install
+(cond
+ ((>= 24 emacs-major-version)
+  (package-refresh-contents)
+ )
+)
 (package-initialize)
 
 (ac-config-default)
@@ -85,11 +80,7 @@
             (setq indent-tabs-mode t)
             ))
 
-(add-hook 'go-mode-hook
-          (lambda ()
-            (local-set-key (kbd "M-.") 'godef-jump)))
-
-;; ;; Python Hook
+;; Python Hook
 ;; (add-hook 'python-mode-hook
 ;;           ((lambda ()
 ;;              (setq indent-tabs-mode nil
@@ -98,9 +89,13 @@
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) ;; for JSX
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.hbs\\'" . handlebars-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.liquid\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jison\\'" . bison-mode))
 (setq js-indent-level 2)
 (setq jsx-indent-level 2)
